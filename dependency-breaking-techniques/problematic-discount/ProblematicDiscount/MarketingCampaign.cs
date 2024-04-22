@@ -1,6 +1,6 @@
 namespace ProblematicDiscount;
 
-public class MarketingCampaign
+public class MarketingCampaign : Campaign
 {
     public bool IsActive()
     {
