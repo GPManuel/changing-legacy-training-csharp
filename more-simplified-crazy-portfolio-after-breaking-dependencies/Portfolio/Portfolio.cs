@@ -25,8 +25,11 @@ public class Portfolio
             var dateTime = CreateAssetDateTime(dateAsString, CurrentCulture);
             var asset = new Asset(columns[0],
                 dateTime,
-                columns[0] == "Unicorn" ? new PricelessValue() : new MeasurableValue(int.Parse(columns[2])));
+                columns[0] == "Unicorn"
+                    ? new PricelessValue()
+                    : new MeasurableValue(int.Parse(columns[2])));
 
+            //before now
             if (asset.Date.Subtract(now).TotalDays < 0)
             {
                 if (asset.Description != "French Wine")
@@ -59,6 +62,7 @@ public class Portfolio
                     }
                 }
             }
+            //afeter now
             else
             {
                 if (asset.Description != "French Wine" && asset.Description != "Lottery Prediction")
