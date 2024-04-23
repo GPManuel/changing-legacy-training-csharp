@@ -36,7 +36,7 @@ public class Portfolio
                 {
                     if (asset.Description != "Lottery Prediction")
                     {
-                        if (asset.Value.Get() > 0)
+                        if (asset.Value.Get() > 0) 
                         {
                             if (asset.Description != "Unicorn")
                             {
@@ -62,7 +62,7 @@ public class Portfolio
                     }
                 }
             }
-            //afeter now
+            //after now
             else
             {
                 if (asset.Description != "French Wine" && asset.Description != "Lottery Prediction")
@@ -82,6 +82,7 @@ public class Portfolio
                     }
                     else
                     {
+                        // unreachable code
                         if (asset.Description == "Unicorn")
                         {
                             DisplayMessage(
