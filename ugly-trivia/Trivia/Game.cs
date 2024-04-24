@@ -2,6 +2,10 @@ namespace Trivia
 {
     public class Game
     {
+        public List<bool> _answersWasWrong = new();
+        public List<int> _rollsDie = new();
+        public List<string> _notifications = new();
+
         private readonly List<string> _players = new();
         private readonly int[] _places = new int[6];
         private readonly int[] _purses = new int[6];
@@ -219,17 +223,21 @@ namespace Trivia
 
         protected virtual bool IsWrongAnswer(Random rand)
         {
-            return rand.Next(9) == 7;
+            var isWrongAnswer = rand.Next(9) == 7;
+            _answersWasWrong.Add(isWrongAnswer);
+            return isWrongAnswer;
         }
 
         protected virtual int RollDie(Random rand)
         {
-            return rand.Next(5) + 1;
+            var rollDie = rand.Next(5) + 1;
+            _rollsDie.Add(rollDie);
+            return rollDie;
         }
         protected virtual void Notify(string message)
         {
+            _notifications.Add(message);
             Console.WriteLine(message);
         }
-
     }
 }

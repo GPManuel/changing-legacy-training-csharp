@@ -5,9 +5,21 @@ namespace Trivia.Tests;
 
 public class GameTest
 {
+
     [Test]
-    public void Should_Not_Pass()
+    public void sampling_game()
     {
-        Assert.That(false, Is.True);
+        Game game = new();
+
+        game.Add("Chet");
+        game.Add("Pat");
+        game.Add("Sue");
+        game.Add("Carlos");
+        game.Add("Manuel");
+
+        game.Run();
+
+        Assert.Pass();
     }
 }
+
