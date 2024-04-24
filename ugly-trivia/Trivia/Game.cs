@@ -48,16 +48,6 @@ namespace Trivia
             } while (notAWinner);
         }
 
-        protected virtual bool IsWrongAnswer(Random rand)
-        {
-            return rand.Next(9) == 7;
-        }
-
-        protected virtual int RollDie(Random rand)
-        {
-            return rand.Next(5) + 1;
-        }
-
         private string CreateRockQuestion(int index)
         {
             return "Rock Question " + index;
@@ -70,10 +60,11 @@ namespace Trivia
             _purses[HowManyPlayers()] = 0;
             _inPenaltyBox[HowManyPlayers()] = false;
 
-            Console.WriteLine(playerName + " was added");
-            Console.WriteLine("They are player number " + _players.Count);
+            Notify(playerName + " was added");
+            Notify("They are player number " + _players.Count);
             return true;
         }
+
 
         private int HowManyPlayers()
         {
@@ -82,8 +73,8 @@ namespace Trivia
 
         private void Roll(int roll)
         {
-            Console.WriteLine(_players[_currentPlayer] + " is the current player");
-            Console.WriteLine("They have rolled a " + roll);
+            Notify(_players[_currentPlayer] + " is the current player");
+            Notify("They have rolled a " + roll);
 
             if (_inPenaltyBox[_currentPlayer])
             {
@@ -91,22 +82,22 @@ namespace Trivia
                 {
                     _isGettingOutOfPenaltyBox = true;
 
-                    Console.WriteLine(_players[_currentPlayer] + " is getting out of the penalty box");
+                    Notify(_players[_currentPlayer] + " is getting out of the penalty box");
                     _places[_currentPlayer] = _places[_currentPlayer] + roll;
                     if (_places[_currentPlayer] > 11)
                     {
                         _places[_currentPlayer] = _places[_currentPlayer] - 12;
                     }
 
-                    Console.WriteLine(_players[_currentPlayer]
+                    Notify(_players[_currentPlayer]
                                       + "'s new location is "
                                       + _places[_currentPlayer]);
-                    Console.WriteLine("The category is " + CurrentCategory());
+                    Notify("The category is " + CurrentCategory());
                     AskQuestion();
                 }
                 else
                 {
-                    Console.WriteLine(_players[_currentPlayer] + " is not getting out of the penalty box");
+                    Notify(_players[_currentPlayer] + " is not getting out of the penalty box");
                     _isGettingOutOfPenaltyBox = false;
                 }
             }
@@ -118,10 +109,10 @@ namespace Trivia
                     _places[_currentPlayer] = _places[_currentPlayer] - 12;
                 }
 
-                Console.WriteLine(_players[_currentPlayer]
+                Notify(_players[_currentPlayer]
                                   + "'s new location is "
                                   + _places[_currentPlayer]);
-                Console.WriteLine("The category is " + CurrentCategory());
+                Notify("The category is " + CurrentCategory());
                 AskQuestion();
             }
         }
@@ -130,25 +121,25 @@ namespace Trivia
         {
             if (CurrentCategory() == "Pop")
             {
-                Console.WriteLine(_popQuestions.First());
+                Notify(_popQuestions.First());
                 _popQuestions.RemoveFirst();
             }
 
             if (CurrentCategory() == "Science")
             {
-                Console.WriteLine(_scienceQuestions.First());
+                Notify(_scienceQuestions.First());
                 _scienceQuestions.RemoveFirst();
             }
 
             if (CurrentCategory() == "Sports")
             {
-                Console.WriteLine(_sportsQuestions.First());
+                Notify(_sportsQuestions.First());
                 _sportsQuestions.RemoveFirst();
             }
 
             if (CurrentCategory() == "Rock")
             {
-                Console.WriteLine(_rockQuestions.First());
+                Notify(_rockQuestions.First());
                 _rockQuestions.RemoveFirst();
             }
         }
@@ -174,8 +165,8 @@ namespace Trivia
 
         private bool WrongAnswer()
         {
-            Console.WriteLine("Question was incorrectly answered");
-            Console.WriteLine(_players[_currentPlayer] + " was sent to the penalty box");
+            Notify("Question was incorrectly answered");
+            Notify(_players[_currentPlayer] + " was sent to the penalty box");
             _inPenaltyBox[_currentPlayer] = true;
 
             _currentPlayer++;
@@ -189,9 +180,9 @@ namespace Trivia
             {
                 if (_isGettingOutOfPenaltyBox)
                 {
-                    Console.WriteLine("Answer was correct!!!!");
+                    Notify("Answer was correct!!!!");
                     _purses[_currentPlayer]++;
-                    Console.WriteLine(_players[_currentPlayer]
+                    Notify(_players[_currentPlayer]
                                       + " now has "
                                       + _purses[_currentPlayer]
                                       + " Gold Coins.");
@@ -211,9 +202,9 @@ namespace Trivia
             }
             else
             {
-                Console.WriteLine("Answer was corrent!!!!");
+                Notify("Answer was corrent!!!!");
                 _purses[_currentPlayer]++;
-                Console.WriteLine(_players[_currentPlayer]
+                Notify(_players[_currentPlayer]
                                   + " now has "
                                   + _purses[_currentPlayer]
                                   + " Gold Coins.");
@@ -225,5 +216,20 @@ namespace Trivia
                 return winner;
             }
         }
+
+        protected virtual bool IsWrongAnswer(Random rand)
+        {
+            return rand.Next(9) == 7;
+        }
+
+        protected virtual int RollDie(Random rand)
+        {
+            return rand.Next(5) + 1;
+        }
+        protected virtual void Notify(string message)
+        {
+            Console.WriteLine(message);
+        }
+
     }
 }
