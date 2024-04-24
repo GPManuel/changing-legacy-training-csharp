@@ -28,13 +28,16 @@ namespace Trivia
         public void Run()
         {
             bool notAWinner;
+
+            //input indirecto
             var rand = new Random();
 
             do
             {
-                Roll(rand.Next(5) + 1);
+                //TODO extract & override 
+                Roll(RollDie(rand));
 
-                if (rand.Next(9) == 7)
+                if (IsWrongAnswer(rand))
                 {
                     notAWinner = WrongAnswer();
                 }
@@ -43,6 +46,16 @@ namespace Trivia
                     notAWinner = WasCorrectlyAnswered();
                 }
             } while (notAWinner);
+        }
+
+        protected virtual bool IsWrongAnswer(Random rand)
+        {
+            return rand.Next(9) == 7;
+        }
+
+        protected virtual int RollDie(Random rand)
+        {
+            return rand.Next(5) + 1;
         }
 
         private string CreateRockQuestion(int index)
