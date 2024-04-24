@@ -14,15 +14,16 @@ public class Portfolio
 
     public void ComputePortfolioValue()
     {
-        var now = GetNow();
-        var lines = ReadAssetsFileLines();
+        var now = DateTime.Now;
+        var readText = File.ReadAllText(_portfolioCsvPath);
+        var lines = readText.Split(Environment.NewLine);
         var portfolioValue = new MeasurableValue(0);
 
         foreach (var line in lines)
         {
             var columns = line.Split(",");
             var dateAsString = columns[1];
-            var dateTime = CreateAssetDateTime(dateAsString, CurrentCulture);
+            var dateTime = DateTime.Parse(dateAsString, CurrentCulture);
             var asset = new Asset(columns[0],
                 dateTime,
                 columns[0] == "Unicorn" ? new PricelessValue() : new MeasurableValue(int.Parse(columns[2])));
@@ -41,7 +42,7 @@ public class Portfolio
                             }
                             else
                             {
-                                DisplayMessage("Portfolio is priceless because it got a unicorn!!!!!");
+                                Console.WriteLine("Portfolio is priceless because it got a unicorn!!!!!");
                                 return;
                             }
                         }
@@ -71,8 +72,7 @@ public class Portfolio
                         }
                         else
                         {
-                            DisplayMessage(
-                                "Portfolio is priceless because it got a unicorn!!!!!");
+                            Console.WriteLine("Portfolio is priceless because it got a unicorn!!!!!");
                             return;
                         }
                     }
@@ -80,8 +80,7 @@ public class Portfolio
                     {
                         if (asset.Description == "Unicorn")
                         {
-                            DisplayMessage(
-                                "Portfolio is priceless because it got a unicorn!!!!!");
+                            Console.WriteLine("Portfolio is priceless because it got a unicorn!!!!!");
                             return;
                         }
                     }
@@ -124,28 +123,6 @@ public class Portfolio
             portfolioValue = new MeasurableValue(portfolioValue.Get() + asset.Value.Get());
         }
 
-        DisplayMessage(portfolioValue.ToString());
-    }
-
-    protected virtual DateTime GetNow()
-    {
-        return DateTime.Now;
-    }
-
-    protected virtual string[] ReadAssetsFileLines()
-    {
-        var readText = File.ReadAllText(_portfolioCsvPath);
-        var lines = readText.Split(Environment.NewLine);
-        return lines;
-    }
-
-    protected virtual void DisplayMessage(string message)
-    {
-        Console.WriteLine(message);
-    }
-
-    protected virtual DateTime CreateAssetDateTime(string dateAsString, CultureInfo cultureInfo)
-    {
-        return DateTime.Parse(dateAsString, cultureInfo);
+        Console.WriteLine(portfolioValue.ToString());
     }
 }
