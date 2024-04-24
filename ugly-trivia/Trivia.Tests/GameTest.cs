@@ -1,5 +1,5 @@
-﻿
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System.Text.Json;
 
 namespace Trivia.Tests;
 
@@ -18,6 +18,13 @@ public class GameTest
         game.Add("Manuel");
 
         game.Run();
+
+        var allAnswers = JsonSerializer.Serialize(game._answersWasWrong);
+        Console.WriteLine(allAnswers);
+        var allNotifications = JsonSerializer.Serialize(game._notifications);
+        Console.WriteLine(allNotifications);
+        var allRolss = JsonSerializer.Serialize(game._rollsDie);
+        Console.WriteLine(allRolss);
 
         Assert.Pass();
     }
